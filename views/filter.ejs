@@ -1,0 +1,35 @@
+<h3><center>Data Anggota IPNU IPPNU</center></h3>
+<center><%= filter.ranting  %> (<%= filter.periode %>)</center>
+<br>
+
+
+<div class="d-flex justify-content-center">
+    <div>
+        <div class="column">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">TTL</th>
+                    <th scope="col">Ranting</th>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Detail</th>
+                    </tr>
+                </thead>
+                <% users.forEach(user => { %>
+                <tbody>
+                    <tr>
+                    <th scope="row">1</th>
+                    <td><%= user.data.nama %></td>
+                    <td><%= user.data.ttl %></td>
+                    <td><%= user.data.ranting %></td>
+                    <td><%= user.data.periode %></td>
+                    <td><a class="btn btn-success" href="/edit-profile/<%= user._id %> ">Detail</a></td>
+                    </tr>
+                </tbody>
+                <% }) %>
+            </table>
+        </div>
+    </div>
+</div>
