@@ -81,14 +81,7 @@ app.use(async (req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    User.find().sort({ 'data.nama': 1 }).then(users => {
-        res.render('index', {
-            layout: 'layouts/main-layout',
-            title: 'Pelajar NU Wates',
-            admin: req.admin,
-            users
-        })
-    })
+    res.send('Helloooo')
 })
 
 // app.post('/filter', async (req, res) => {
