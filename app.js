@@ -91,35 +91,35 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/filter', async (req, res) => {
-    let users
-    const filter = {
-        periode: req.body.periode,
-        ranting: req.body.ranting
-    }
+// app.post('/filter', async (req, res) => {
+//     let users
+//     const filter = {
+//         periode: req.body.periode,
+//         ranting: req.body.ranting
+//     }
 
-    if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
-        users = await User.find().sort({ 'data.nama': 1 })
+//     if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
+//         users = await User.find().sort({ 'data.nama': 1 })
 
-    } else if (filter.periode == 'Semua') {
-        users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+//     } else if (filter.periode == 'Semua') {
+//         users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
 
-    } else if (filter.ranting == 'Semua') {
-        users = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
+//     } else if (filter.ranting == 'Semua') {
+//         users = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
 
-    } else {
-        users = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
-    }
+//     } else {
+//         users = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+//     }
 
-    res.render('filter', {
-        layout: 'layouts/main-layout',
-        title: 'Pelajar NU Wates',
-        admin: req.admin,
-        users,
-        filter
-    })
+//     res.render('filter', {
+//         layout: 'layouts/main-layout',
+//         title: 'Pelajar NU Wates',
+//         admin: req.admin,
+//         users,
+//         filter
+//     })
     
-})
+// })
 
 app.get('/edit-profile/:id', (req, res) => {
     const user = User.findOne({ _id: req.params.id })
