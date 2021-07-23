@@ -26,40 +26,50 @@ app.use(
     })
 )
 
+app.get('/login', (req, res) => {
+    res.render('login', {
+        layout: 'layouts/main-layout',
+        title: 'Pelajar NU Wates',
+        message: 'Password salah! Coba lagi!',
+        messageClass: 'alert-danger',
+        admin
+    })
+})
+
 app.post('/login', (req, res) => {
     let email = req.body.email
     let password = req.body.password
 
     const getUser = Admin.findOne({ email: email })
-        .then(getUser => {
-            if (getUser) {
-                if (password === getUser.password) {
-                    token = jwt.sign({ email: getUser.email }, 'fradotech20012021.01082000.20052003', { expiresIn: '60m' })
+    .then(getUser => {
+        if (getUser) {
+            if (password === getUser.password) {
+                token = jwt.sign({ email: getUser.email }, 'fradotech20012021.01082000.20052003', { expiresIn: '60m' })
 
-                    res.cookie('token', token)
-                    res.cookie('admin', getUser)
+                res.cookie('token', token)
+                res.cookie('admin', getUser)
 
-                    res.redirect('/')
+                res.redirect('/')
 
-                } else {
-                    res.render('login', {
-                        layout: 'layouts/main-layout',
-                        title: 'Pelajar NU Wates',
-                        message: 'Password salah! Coba lagi!',
-                        messageClass: 'alert-danger',
-                        user: null
-                    })
-                }
             } else {
                 res.render('login', {
                     layout: 'layouts/main-layout',
                     title: 'Pelajar NU Wates',
-                    message: 'Email salah! Coba lagi!',
+                    message: 'Password salah! Coba lagi!',
                     messageClass: 'alert-danger',
-                    user: null
+                    admin: getUser
                 })
             }
-        })
+        } else {
+            res.render('login', {
+                layout: 'layouts/main-layout',
+                title: 'Pelajar NU Wates',
+                message: 'Email salah! Coba lagi!',
+                messageClass: 'alert-danger',
+                admin: getUser
+            })
+        }
+    })
 })
 
 //User
