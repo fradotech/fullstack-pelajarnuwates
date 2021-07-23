@@ -81,105 +81,112 @@ app.use(async (req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.send('Helloooo')
+    User.find().sort({ 'data.nama': 1 }).then(users => {
+        res.render('index', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users
+        })
+    })
 })
 
-// app.post('/filter', async (req, res) => {
-//     let users
-//     const filter = {
-//         periode: req.body.periode,
-//         ranting: req.body.ranting
-//     }
+app.post('/filter', async (req, res) => {
+    let users
+    const filter = {
+        periode: req.body.periode,
+        ranting: req.body.ranting
+    }
 
-//     if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
-//         users = await User.find().sort({ 'data.nama': 1 })
+    if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
+        users = await User.find().sort({ 'data.nama': 1 })
 
-//     } else if (filter.periode == 'Semua') {
-//         users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+    } else if (filter.periode == 'Semua') {
+        users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
 
-//     } else if (filter.ranting == 'Semua') {
-//         users = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
+    } else if (filter.ranting == 'Semua') {
+        users = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
 
-//     } else {
-//         users = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
-//     }
+    } else {
+        users = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+    }
 
-//     res.render('filter', {
-//         layout: 'layouts/main-layout',
-//         title: 'Pelajar NU Wates',
-//         admin: req.admin,
-//         users,
-//         filter
-//     })
+    res.render('filter', {
+        layout: 'layouts/main-layout',
+        title: 'Pelajar NU Wates',
+        admin: req.admin,
+        users,
+        filter
+    })
     
-// })
+})
 
-// app.get('/edit-profile/:id', (req, res) => {
-//     const user = User.findOne({ _id: req.params.id })
-//     .then(user => {
-//         res.render('edit-profile', {
-//             layout: 'layouts/main-layout',
-//             title: 'Pelajar NU Wates',
-//             admin: req.admin,
-//             user
-//         })
-//     })
-// })
+app.get('/edit-profile/:id', (req, res) => {
+    const user = User.findOne({ _id: req.params.id })
+    .then(user => {
+        res.render('edit-profile', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            user
+        })
+    })
+})
 
-// app.post('/edit-profile/:id', (req, res) => {
-//     const getUser = User.findOne({ _id: req.params.id })
-//         .then(getUser => {
-//             let makesta = ''
-//             let lakmud = ''
-//             let lakud = ''
+app.post('/edit-profile/:id', (req, res) => {
+    const getUser = User.findOne({ _id: req.params.id })
+        .then(getUser => {
+            let makesta = ''
+            let lakmud = ''
+            let lakud = ''
 
-//             if (req.body.makesta) {
-//                 makesta = req.body.makesta + ' ' + req.body.makestaTahun + ', '
-//             }
-//             if (req.body.lakmud) {
-//                 lakmud = req.body.lakmud + ' ' + req.body.lakmudTahun + ', '
-//             }
-//             if (req.body.lakud) {
-//                 lakud = req.body.lakud + ' ' + req.body.lakudTahun
-//             }
+            if (req.body.makesta) {
+                makesta = req.body.makesta + ' ' + req.body.makestaTahun + ', '
+            }
+            if (req.body.lakmud) {
+                lakmud = req.body.lakmud + ' ' + req.body.lakmudTahun + ', '
+            }
+            if (req.body.lakud) {
+                lakud = req.body.lakud + ' ' + req.body.lakudTahun
+            }
 
-//             const user = {
-//                 email: getUser.email,
-//                 password: getUser.password,
-//                 data: {
-//                     nama: req.body.name,
-//                     alamat: req.body.alamat,
-//                     periode: req.body.periode,
-//                     phone: req.body.phone,
-//                     ttl: req.body.ttl,
-//                     ranting: req.body.ranting,
-//                     pendidikan: req.body.pendidikan,
-//                     pendidikanSkrng: req.body.pendidikanSkrng,
-//                     kader: makesta + lakmud + lakud,
-//                     pelatihan: req.body.pelatihan,
-//                 }
-//             }
+            const user = {
+                email: getUser.email,
+                password: getUser.password,
+                data: {
+                    nama: req.body.name,
+                    alamat: req.body.alamat,
+                    periode: req.body.periode,
+                    phone: req.body.phone,
+                    ttl: req.body.ttl,
+                    ranting: req.body.ranting,
+                    pendidikan: req.body.pendidikan,
+                    pendidikanSkrng: req.body.pendidikanSkrng,
+                    kader: makesta + lakmud + lakud,
+                    pelatihan: req.body.pelatihan,
+                }
+            }
 
-//             User.findOneAndUpdate({ _id: getUser._id }, user, { new: true }, async (err, doc) => {
-//                 if (!err) {
-//                     res.redirect('/')
-//                 }
-//                 else {
-//                     console.log(err)
-//                 }
-//             })
-//         })
-// })
+            User.findOneAndUpdate({ _id: getUser._id }, user, { new: true }, async (err, doc) => {
+                if (!err) {
+                    res.redirect('/')
+                }
+                else {
+                    console.log(err)
+                }
+            })
+        })
+})
 
-// app.get('/logout', (req, res) => {
-//     cookie = req.cookies
-//     for (let prop in cookie) {
-//         if (!cookie.hasOwnProperty(prop)) {
-//             continue
-//         }
-//         res.cookie(prop, '', { expires: new Date(0) })
-//     }
-//     res.redirect('/')
-// })
+app.get('/logout', (req, res) => {
+    cookie = req.cookies
+    for (let prop in cookie) {
+        if (!cookie.hasOwnProperty(prop)) {
+            continue
+        }
+        res.cookie(prop, '', { expires: new Date(0) })
+    }
+    res.redirect('/')
+})
 
 app.listen(port)
