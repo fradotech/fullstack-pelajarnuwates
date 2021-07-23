@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/filter', (req, res) => {
+app.post('/filter', async (req, res) => {
     const filter = {
         periode: req.body.periode,
         ranting: req.body.ranting
@@ -101,36 +101,33 @@ app.post('/filter', (req, res) => {
         res.redirect('/')
 
     } else if (filter.periode == 'Semua') {
-        return User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
-            res.render('filter', {
-                layout: 'layouts/main-layout',
-                title: 'Pelajar NU Wates',
-                admin: req.admin,
-                users,
-                filter
-            })
+        const users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+        res.render('filter', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users,
+            filter
         })
 
     } else if (filter.ranting == 'Semua') {
-        return User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 }).then(users => {
-            res.render('filter', {
-                layout: 'layouts/main-layout',
-                title: 'Pelajar NU Wates',
-                admin: req.admin,
-                users,
-                filter
-            })
+        const users_1 = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
+        res.render('filter', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users: users_1,
+            filter
         })
 
     } else {
-        return User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
-            res.render('filter', {
-                layout: 'layouts/main-layout',
-                title: 'Pelajar NU Wates',
-                admin: req.admin,
-                users,
-                filter
-            })
+        const users_2 = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+        res.render('filter', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users: users_2,
+            filter
         })
     }
 })
