@@ -100,8 +100,8 @@ app.post('/filter', (req, res) => {
     if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
         res.redirect('/')
 
-    } if (filter.periode == 'Semua') {
-        User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
+    } else if (filter.periode == 'Semua') {
+        return User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
             res.render('filter', {
                 layout: 'layouts/main-layout',
                 title: 'Pelajar NU Wates',
@@ -111,8 +111,8 @@ app.post('/filter', (req, res) => {
             })
         })
 
-    } if (filter.ranting == 'Semua') {
-        User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 }).then(users => {
+    } else if (filter.ranting == 'Semua') {
+        return User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 }).then(users => {
             res.render('filter', {
                 layout: 'layouts/main-layout',
                 title: 'Pelajar NU Wates',
@@ -123,7 +123,7 @@ app.post('/filter', (req, res) => {
         })
 
     } else {
-        User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
+        return User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 }).then(users => {
             res.render('filter', {
                 layout: 'layouts/main-layout',
                 title: 'Pelajar NU Wates',
