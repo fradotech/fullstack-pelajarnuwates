@@ -8,6 +8,7 @@ const { get } = require('mongoose')
 require('./utils/db')
 const User = require('./model/user')
 const Admin = require('./model/admin')
+const { count } = require('./model/user')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -181,6 +182,84 @@ app.post('/ippnu-filter', async (req, res) => {
         filter
     })
     
+})
+
+app.get('/ipnu-ranting', (req, res) => {
+
+    User.find({ 'data.ranting': 'Mojorejo', 'data.nu': 'IPNU' }).count().then(mojorejo => {
+        User.find({ 'data.ranting': 'Purworejo', 'data.nu': 'IPNU' }).count().then(purworejo => {
+            User.find({ 'data.ranting': 'Ringinrejo', 'data.nu': 'IPNU' }).count().then(ringinrejo => {
+                User.find({ 'data.ranting': 'Sukorejo', 'data.nu': 'IPNU' }).count().then(sukorejo => {
+                    User.find({ 'data.ranting': 'Sumberarum', 'data.nu': 'IPNU' }).count().then(sumberarum => {
+                        User.find({ 'data.ranting': 'Tugurejo', 'data.nu': 'IPNU' }).count().then(tugurejo => {
+                            User.find({ 'data.ranting': 'Tulungrejo', 'data.nu': 'IPNU' }).count().then(tulungrejo => {
+                                User.find({ 'data.ranting': 'Wates', 'data.nu': 'IPNU' }).count().then(wates => {
+
+                                    const ranting = {
+                                        mojorejo,
+                                        purworejo,
+                                        ringinrejo,
+                                        sukorejo,
+                                        sumberarum,
+                                        tugurejo,
+                                        tulungrejo,
+                                        wates,
+                                        total: mojorejo + purworejo + ringinrejo + sukorejo + sumberarum + tugurejo + tulungrejo + wates
+                                    }
+
+                                    res.render('ranting', {
+                                        layout: 'layouts/main-layout',
+                                        title: 'Pelajar NU Wates',
+                                        admin: req.admin,
+                                        ranting
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    })
+})
+
+app.get('/ippnu-ranting', (req, res) => {
+
+    User.find({ 'data.ranting': 'Mojorejo', 'data.nu': 'IPPNU' }).count().then(mojorejo => {
+        User.find({ 'data.ranting': 'Purworejo', 'data.nu': 'IPPNU' }).count().then(purworejo => {
+            User.find({ 'data.ranting': 'Ringinrejo', 'data.nu': 'IPPNU' }).count().then(ringinrejo => {
+                User.find({ 'data.ranting': 'Sukorejo', 'data.nu': 'IPPNU' }).count().then(sukorejo => {
+                    User.find({ 'data.ranting': 'Sumberarum', 'data.nu': 'IPPNU' }).count().then(sumberarum => {
+                        User.find({ 'data.ranting': 'Tugurejo', 'data.nu': 'IPPNU' }).count().then(tugurejo => {
+                            User.find({ 'data.ranting': 'Tulungrejo', 'data.nu': 'IPPNU' }).count().then(tulungrejo => {
+                                User.find({ 'data.ranting': 'Wates', 'data.nu': 'IPPNU' }).count().then(wates => {
+
+                                    const ranting = {
+                                        mojorejo,
+                                        purworejo,
+                                        ringinrejo,
+                                        sukorejo,
+                                        sumberarum,
+                                        tugurejo,
+                                        tulungrejo,
+                                        wates,
+                                        total: mojorejo + purworejo + ringinrejo + sukorejo + sumberarum + tugurejo + tulungrejo + wates
+                                    }
+
+                                    res.render('ranting', {
+                                        layout: 'layouts/main-layout',
+                                        title: 'Pelajar NU Wates',
+                                        admin: req.admin,
+                                        ranting
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    })
 })
 
 app.get('/edit-profile/:id', (req, res) => {
