@@ -46,10 +46,11 @@
                     <th scope="col">Detail</th>
                     </tr>
                 </thead>
+                <% let no = 1 %> 
                 <% users.forEach(user => { %>
                 <tbody>
                     <tr>
-                    <th scope="row">1</th>
+                    <th scope="row"><%= no++ %> </th>
                     <td><%= user.data.nama %></td>
                     <td><%= user.data.ttl %></td>
                     <td><%= user.data.ranting %></td>
