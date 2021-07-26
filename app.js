@@ -211,7 +211,8 @@ app.get('/ipnu-ranting', (req, res) => {
                                         layout: 'layouts/main-layout',
                                         title: 'Pelajar NU Wates',
                                         admin: req.admin,
-                                        ranting
+                                        ranting,
+                                        nu: 'IPNU'
                                     })
                                 })
                             })
@@ -250,7 +251,8 @@ app.get('/ippnu-ranting', (req, res) => {
                                         layout: 'layouts/main-layout',
                                         title: 'Pelajar NU Wates',
                                         admin: req.admin,
-                                        ranting
+                                        ranting,
+                                        nu: 'IPPNU'
                                     })
                                 })
                             })
