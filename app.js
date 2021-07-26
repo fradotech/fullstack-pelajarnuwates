@@ -101,7 +101,29 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/filter', async (req, res) => {
+app.get('/ipnu', (req, res) => {
+    User.find({ 'data.nu': 'IPNU' }).sort({ 'data.nama': 1 }).then(users => {
+        res.render('ipnu', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users
+        })
+    })
+})
+
+app.get('/ippnu', (req, res) => {
+    User.find({ 'data.nu': 'IPPNU' }).sort({ 'data.nama': 1 }).then(users => {
+        res.render('ippnu', {
+            layout: 'layouts/main-layout',
+            title: 'Pelajar NU Wates',
+            admin: req.admin,
+            users
+        })
+    })
+})
+
+app.post('/ipnu-filter', async (req, res) => {
     let users
     const filter = {
         periode: req.body.periode,
@@ -109,19 +131,49 @@ app.post('/filter', async (req, res) => {
     }
 
     if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
-        users = await User.find().sort({ 'data.nama': 1 })
+        users = await User.find({ 'data.nu': 'IPNU' }).sort({ 'data.nama': 1 })
 
     } else if (filter.periode == 'Semua') {
-        users = await User.find({ 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+        users = await User.find({ 'data.nu': 'IPNU', 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
 
     } else if (filter.ranting == 'Semua') {
-        users = await User.find({ 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
+        users = await User.find({ 'data.nu': 'IPNU', 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
 
     } else {
-        users = await User.find({ 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+        users = await User.find({ 'data.nu': 'IPNU', 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
     }
 
-    res.render('filter', {
+    res.render('ipnu-filter', {
+        layout: 'layouts/main-layout',
+        title: 'Pelajar NU Wates',
+        admin: req.admin,
+        users,
+        filter
+    })
+    
+})
+
+app.post('/ippnu-filter', async (req, res) => {
+    let users
+    const filter = {
+        periode: req.body.periode,
+        ranting: req.body.ranting
+    }
+
+    if (filter.periode == 'Semua' && filter.ranting == 'Semua') {
+        users = await User.find({ 'data.nu': 'IPPNU' }).sort({ 'data.nama': 1 })
+
+    } else if (filter.periode == 'Semua') {
+        users = await User.find({ 'data.nu': 'IPPNU', 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+
+    } else if (filter.ranting == 'Semua') {
+        users = await User.find({ 'data.nu': 'IPPNU', 'data.periode': req.body.periode }).sort({ 'data.nama': 1 })
+
+    } else {
+        users = await User.find({ 'data.nu': 'IPPNU', 'data.periode': req.body.periode, 'data.ranting': req.body.ranting }).sort({ 'data.nama': 1 })
+    }
+
+    res.render('ippnu-filter', {
         layout: 'layouts/main-layout',
         title: 'Pelajar NU Wates',
         admin: req.admin,
@@ -164,7 +216,8 @@ app.post('/edit-profile/:id', (req, res) => {
                 email: getUser.email,
                 password: getUser.password,
                 data: {
-                    nama: req.body.name,
+                    nama: req.body.nama,
+                    nu: req.body.nu,
                     alamat: req.body.alamat,
                     periode: req.body.periode,
                     phone: req.body.phone,

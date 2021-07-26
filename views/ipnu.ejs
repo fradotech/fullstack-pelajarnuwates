@@ -1,5 +1,37 @@
-<h3><center>Data Anggota IPNU IPPNU Wates</center></h3>
+<h3><center>Data Anggota IPNU Wates</center></h3>
 <br>
+<h5>Ranting</h5>
+<form method="POST" action="/ipnu-filter">
+    <div class="form-group">
+        <label for="rating">Periode</label>
+        <select class="form-control" id="rating" name="periode">
+          <option>Semua</option>
+          <option>2013-2015</option>
+          <option>2016-2018</option>
+          <option>2019-2021</option>
+          <option>2022-2024</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ranting">Ranting</label>
+        <select class="form-control" id="ranting" name="ranting">
+        <option>Semua</option>
+          <option>Mojorejo</option>
+          <option>Purworjo</option>
+          <option>Ringinrejo</option>
+          <option>Sukorejo</option>
+          <option>Sumberarum</option>
+          <option>Tugurejo</option>
+          <option>Tulungrejo</option>
+          <option>Wates</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Filter</button>
+</form>
+
+
 <div class="d-flex justify-content-center">
     <div>
         <div class="column">
